@@ -4,11 +4,11 @@ import avatar from "../../assets/avatar.svg";
 
 export const Header = () => {
   return (
-    <div className="header">
+    <header>
       <div className="user">
         <img className="avatar" src={avatar} alt="avatar" />
-        <h3 className="name">Olá, Helder!</h3>
+        <h3>Olá, Helder!</h3>
       </div>
-    </div>
+    </header>
   );
 };
