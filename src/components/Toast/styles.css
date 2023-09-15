@@ -1,0 +1,9 @@
+.toast {
+  display: flex;
+  position: absolute;
+  background-color: red;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  padding: 1rem;
+  top: 1rem;
+}

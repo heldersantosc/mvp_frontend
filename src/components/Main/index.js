@@ -5,22 +5,49 @@ import expenseIcon from "../../assets/expense.png";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { formatDateTime } from "../../utils/formatDateTime";
 
-export const Main = () => {
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
+const baseUrl = process.env.REACT_APP_API_BASE_URL;
+
+export const Main = ({ setToastText }) => {
+  const [total, setTotal] = useState(0.0);
+  const [expenses, setExpense] = useState([]);
 
   useEffect(() => {
-    async function getExpenseList() {
+    async function getTotal() {
       try {
-        const response = await fetch("http://localhost:5000/expense");
-        const { data } = await response.json();
-        setData(data);
+        const response = await fetch(baseUrl + "/expense/total");
+        const responseJson = await response.json();
+
+        if (responseJson.total) {
+          setTotal(responseJson.total);
+        }
+        if (responseJson.error) {
+          throw new Error(responseJson.error);
+        }
       } catch (error) {
-        setError(error);
+        setToastText(error);
       }
     }
-    getExpenseList();
-  }, []);
+
+    async function getExpenses() {
+      try {
+        const response = await fetch(baseUrl + "/expense");
+        const responseJson = await response.json();
+
+        if (responseJson.data) {
+          setExpense(responseJson.data);
+        }
+        if (responseJson.error) {
+          throw new Error(responseJson.error);
+        }
+        setToastText("error");
+      } catch (error) {
+        setToastText(error);
+      }
+    }
+
+    getTotal();
+    getExpenses();
+  }, [setToastText]);
 
   return (
     <main>
@@ -28,7 +55,7 @@ export const Main = () => {
         <section className="expense-section-total">
           <div className="group">
             <h5 className="title">Despesa total</h5>
-            <h3 className="total">R$ 216,00</h3>
+            <h3 className="total">{formatCurrency(total)}</h3>
           </div>
         </section>
 
@@ -40,7 +67,7 @@ export const Main = () => {
           </div>
 
           <ul className="list">
-            {data.map((expense, index) => {
+            {expenses.map((expense, index) => {
               return (
                 <Fragment key={`expense-${index}`}>
                   <li>

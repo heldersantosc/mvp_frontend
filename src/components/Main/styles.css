@@ -2,7 +2,9 @@ main {
   display: flex;
   position: absolute;
   color: #1d1d1d;
-  padding-bottom: 1rem;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
   top: 8rem;
   width: 90%;
   max-width: 700px;
@@ -11,8 +13,6 @@ main {
 article {
   display: flex;
   flex-direction: column;
-  border-radius: 0.5rem;
-  background-color: #ffffff;
   padding: 1rem;
   width: 100%;
   gap: 1rem;
@@ -50,13 +50,14 @@ hr {
 .expense-section-list > .list {
   display: flex;
   flex-direction: column;
-  max-height: 420px;
+  max-height: 50vh;
   overflow-y: auto;
   gap: 1rem;
 }
 
 li {
   list-style: none;
+  padding-right: 1rem;
 }
 
 .item {
