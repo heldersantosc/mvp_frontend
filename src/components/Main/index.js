@@ -53,7 +53,7 @@ export const Main = ({ setToastText }) => {
       <article>
         <section className="expense-section-total">
           <div className="group">
-            <h5 className="title">Despesa total</h5>
+            <h4 className="title">Despesa total</h4>
             <h3 className="total">{formatCurrency(total)}</h3>
           </div>
         </section>

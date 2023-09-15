@@ -1,0 +1,39 @@
+footer {
+  display: flex;
+  position: sticky;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  min-height: 6rem;
+  width: 100%;
+  bottom: 0;
+  gap: 4rem;
+}
+
+.footer-button {
+  color: #ffffff;
+  outline: none;
+  border: none;
+  height: 4rem;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.button-add {
+  background-color: #17d175;
+  border-radius: 2rem;
+  width: 8rem;
+}
+.button-add:hover {
+  background-color: #22c272;
+}
+
+.button-edit,
+.button-delete {
+  color: #808080;
+}
+
+.material-symbols-rounded {
+  font-size: 36px;
+}
