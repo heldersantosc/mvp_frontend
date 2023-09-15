@@ -76,7 +76,7 @@ input::-webkit-inner-spin-button {
 }
 
 .edit-button {
-  color: #ffffff;
+  color: #808080;
   outline: none;
   border: none;
   height: 4rem;
@@ -87,6 +87,7 @@ input::-webkit-inner-spin-button {
 }
 
 .edit-button-save {
+  color: #ffffff;
   background-color: #17d175;
 }
 .edit-button-save:hover {

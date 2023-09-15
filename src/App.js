@@ -8,15 +8,16 @@ import { Modal } from "./components/Modal";
 import { Toast } from "./components/Toast";
 
 function App() {
+  const [modal, setModal] = useState(false);
   const [toastText, setToastText] = useState("");
 
   return (
     <Container>
-      <Modal children={<Edit />} />
+      <Modal open={modal} children={<Edit setModal={setModal} />} />
       <Toast text={toastText} setToastText={setToastText} />
       <Header />
       <Main setToastText={setToastText} />
-      <Footer />
+      <Footer setModal={setModal} />
     </Container>
   );
 }

@@ -1,15 +1,18 @@
 import "./styles.css";
 
-export const Footer = () => {
+export const Footer = ({ setModal }) => {
   return (
     <footer>
-      <button className="footer-button button-edit">
+      <button className="footer-button">
         <span class="material-symbols-rounded">edit_square</span>
       </button>
-      <button className="footer-button button-add">
+      <button
+        className="footer-button button-add"
+        onClick={() => setModal(true)}
+      >
         <span class="material-symbols-rounded">add</span>
       </button>
-      <button className="footer-button button-delete">
+      <button className="footer-button">
         <span class="material-symbols-rounded">delete</span>
       </button>
     </footer>

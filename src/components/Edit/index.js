@@ -1,6 +1,14 @@
 import "./styles.css";
 
-export const Edit = () => {
+export const Edit = ({ setModal }) => {
+  const handleCloseClick = () => {
+    setModal(false);
+  };
+
+  const handleSaveClick = () => {
+    setModal(false);
+  };
+
   return (
     <div className="edit">
       <div className="edit-header">
@@ -30,10 +38,13 @@ export const Edit = () => {
       <hr />
 
       <div className="edit-options">
-        <button className="edit-button button-delete">
+        <button className="edit-button" onClick={() => handleCloseClick()}>
           <span class="material-symbols-rounded">close</span>
         </button>
-        <button className="edit-button edit-button-save">
+        <button
+          className="edit-button edit-button-save"
+          onClick={() => handleSaveClick()}
+        >
           <span class="material-symbols-rounded">save</span>
         </button>
       </div>

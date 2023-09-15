@@ -11,7 +11,7 @@ footer {
 }
 
 .footer-button {
-  color: #ffffff;
+  color: #808080;
   outline: none;
   border: none;
   height: 4rem;
@@ -21,6 +21,7 @@ footer {
 }
 
 .button-add {
+  color: #ffffff;
   background-color: #17d175;
   border-radius: 2rem;
   width: 8rem;
@@ -28,11 +29,6 @@ footer {
 
 .button-add:hover {
   background-color: #22c272;
-}
-
-.button-edit,
-.button-delete {
-  color: #808080;
 }
 
 .material-symbols-rounded {
