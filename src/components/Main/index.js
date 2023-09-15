@@ -15,7 +15,7 @@ export const Main = ({ setToastText }) => {
     async function getTotal() {
       try {
         const response = await fetch(baseUrl + "/expense/total");
-        const responseJson = await response.json();
+        const responseJson = await response?.json();
 
         if (responseJson.total) {
           setTotal(responseJson.total);
@@ -24,14 +24,14 @@ export const Main = ({ setToastText }) => {
           throw new Error(responseJson.error);
         }
       } catch (error) {
-        setToastText(error);
+        setToastText(error.message);
       }
     }
 
     async function getExpenses() {
       try {
         const response = await fetch(baseUrl + "/expense");
-        const responseJson = await response.json();
+        const responseJson = await response?.json();
 
         if (responseJson.data) {
           setExpense(responseJson.data);
@@ -39,9 +39,8 @@ export const Main = ({ setToastText }) => {
         if (responseJson.error) {
           throw new Error(responseJson.error);
         }
-        setToastText("error");
       } catch (error) {
-        setToastText(error);
+        setToastText(error.message);
       }
     }
 
