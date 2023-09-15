@@ -1,52 +1,10 @@
 import "./styles.css";
 
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { formatDateTime } from "../../utils/formatDateTime";
 
-const baseUrl = process.env.REACT_APP_API_BASE_URL;
-
-export const Main = ({ setToastText }) => {
-  const [total, setTotal] = useState(0.0);
-  const [expenses, setExpense] = useState([]);
-
-  useEffect(() => {
-    async function getTotal() {
-      try {
-        const response = await fetch(baseUrl + "/expense/total");
-        const responseJson = await response?.json();
-
-        if (responseJson.total) {
-          setTotal(responseJson.total);
-        }
-        if (responseJson.error) {
-          throw new Error(responseJson.error);
-        }
-      } catch (error) {
-        setToastText(error.message);
-      }
-    }
-
-    async function getExpenses() {
-      try {
-        const response = await fetch(baseUrl + "/expense");
-        const responseJson = await response?.json();
-
-        if (responseJson.data) {
-          setExpense(responseJson.data);
-        }
-        if (responseJson.error) {
-          throw new Error(responseJson.error);
-        }
-      } catch (error) {
-        setToastText(error.message);
-      }
-    }
-
-    getTotal();
-    getExpenses();
-  }, [setToastText]);
-
+export const Main = ({ expenses, total }) => {
   return (
     <main>
       <article>
