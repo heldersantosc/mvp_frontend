@@ -81,3 +81,31 @@ li {
   white-space: nowrap;
   color: #01a0c0;
 }
+
+.edit-remove-warning {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.5rem;
+  background-color: #e0e0e0;
+  padding: 0.5rem;
+}
+
+.edit-remove-warning > .material-symbols-rounded {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.edit-icon > .material-symbols-rounded {
+  font-size: 20px;
+  color: #ff7230;
+  cursor: pointer;
+  user-select: none;
+}
+
+.delete-icon > .material-symbols-rounded {
+  font-size: 20px;
+  color: #ff5c48;
+  cursor: pointer;
+  user-select: none;
+}

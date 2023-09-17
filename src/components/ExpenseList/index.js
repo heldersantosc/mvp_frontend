@@ -7,14 +7,14 @@ import { formatDateTime } from '../../utils/formatDateTime';
 export const ExpenseList = ({ option, setOption, setModal, selectExpense, expenses, total }) => {
   const buttonsOptionMapping = {
     edit: (
-      <span className="material-symbols-rounded" onClick={() => setModal(true)}>
-        edit_square
-      </span>
+      <div className="edit-icon" onClick={() => setModal(true)}>
+        <span className="material-symbols-rounded">edit_square</span>
+      </div>
     ),
     delete: (
-      <span className="material-symbols-rounded" onClick={() => setModal(true)}>
-        delete
-      </span>
+      <div className="delete-icon" onClick={() => setModal(true)}>
+        <span className="material-symbols-rounded">delete</span>
+      </div>
     ),
   };
 
@@ -36,9 +36,12 @@ export const ExpenseList = ({ option, setOption, setModal, selectExpense, expens
           </div>
 
           {option !== 'read' ? (
-            <span className="material-symbols-rounded" onClick={() => setOption('read')}>
-              close
-            </span>
+            <div className="edit-remove-warning">
+              Cancelar
+              <span className="material-symbols-rounded" onClick={() => setOption('read')}>
+                close
+              </span>
+            </div>
           ) : null}
 
           <ul className="list">
@@ -48,12 +51,12 @@ export const ExpenseList = ({ option, setOption, setModal, selectExpense, expens
                 <Fragment key={`expense-${index}`}>
                   <li onClick={() => selectExpense(id, description, formatCurrency(String(value)))}>
                     <div className="item">
-                      {buttonsOptionMapping[option]}
                       <div>
                         <h5>{description}</h5>
                         <small>{formatDateTime(date_time)}</small>
                       </div>
-                      <h5 className="value">{formatCurrency(String(value))}</h5>
+                      <h4 className="value">{formatCurrency(String(value))}</h4>
+                      {buttonsOptionMapping[option]}
                     </div>
                   </li>
                   <hr />
