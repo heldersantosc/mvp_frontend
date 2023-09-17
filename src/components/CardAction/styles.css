@@ -74,22 +74,3 @@ input::-webkit-inner-spin-button {
   background-color: #ffffff;
   height: 4rem;
 }
-
-.edit-button {
-  color: #808080;
-  outline: none;
-  border: none;
-  height: 4rem;
-  background-color: transparent;
-  cursor: pointer;
-  width: 100%;
-  transition: 0.5s;
-}
-
-.edit-button-save {
-  color: #ffffff;
-  background-color: #17d175;
-}
-.edit-button-save:hover {
-  background-color: #22c272;
-}

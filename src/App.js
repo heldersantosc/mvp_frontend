@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { CardAction } from "./components/CardAction";
+import { ConfirmAction } from "./components/ConfirmAction";
 import { Container } from "./components/Container";
-import { Edit } from "./components/Edit";
+import { ExpenseList } from "./components/ExpenseList";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
-import { Main } from "./components/Main";
 import { Modal } from "./components/Modal";
 import { Toast } from "./components/Toast";
 
@@ -13,13 +14,18 @@ function App() {
   const [modal, setModal] = useState(false);
   const [toastText, setToastText] = useState("");
   const [expenses, setExpense] = useState([]);
+  const [id, setId] = useState(0);
   const [total, setTotal] = useState(0.0);
   const [value, setValue] = useState(0.0);
   const [description, setDescription] = useState("");
+  const [option, setOption] = useState("read");
 
   const getData = async () => {
     await getTotal();
     await getExpenses();
+    clearInput();
+    setModal(false);
+    setOption("read");
   };
 
   const getTotal = async () => {
@@ -44,6 +50,20 @@ function App() {
     }
   };
 
+  const handleAction = async (event) => {
+    switch (option) {
+      case "edit":
+        await editExpense(event);
+        break;
+      case "delete":
+        await deleteExpense(event);
+        break;
+      default:
+        await createExpense(event);
+        break;
+    }
+  };
+
   const createExpense = async (event) => {
     event.preventDefault();
 
@@ -54,16 +74,52 @@ function App() {
 
     try {
       const options = { method: "POST", body: formData };
-      const response = await fetch(baseUrl + "/expense", options);
+      const response = await fetch(`${baseUrl}/expense`, options);
       const responseJson = await response?.json();
       if (responseJson.error) throw new Error(responseJson.error);
-      getData();
-      clearInput();
-      setModal(false);
+      await getData();
       setToastText(responseJson.message);
     } catch (error) {
       setToastText(error.message);
     }
+  };
+
+  const editExpense = async (event) => {
+    event.preventDefault();
+
+    try {
+      const options = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description, value }),
+      };
+      const response = await fetch(`${baseUrl}/expense/${id}`, options);
+      const responseJson = await response?.json();
+      if (responseJson.error) throw new Error(responseJson.error);
+      getData();
+      setToastText(responseJson.message);
+    } catch (error) {
+      setToastText(error.message);
+    }
+  };
+
+  const deleteExpense = async () => {
+    try {
+      const options = { method: "DELETE" };
+      const response = await fetch(`${baseUrl}/expense/${id}`, options);
+      const responseJson = await response?.json();
+      if (responseJson.error) throw new Error(responseJson.error);
+      getData();
+      setToastText(responseJson.message);
+    } catch (error) {
+      setToastText(error.message);
+    }
+  };
+
+  const selectExpense = async (id, description, value) => {
+    setId(id);
+    setValue(value);
+    setDescription(description);
   };
 
   const clearInput = () => {
@@ -71,27 +127,44 @@ function App() {
     setDescription("");
   };
 
+  const handleCloseClick = () => {
+    setModal(false);
+    clearInput();
+  };
+
   useEffect(() => {
     getData();
-  }, [setToastText]);
+  }, []);
 
   return (
     <Container>
       <Modal open={modal}>
-        <Edit
+        <ConfirmAction
+          visible={option === "delete"}
+          handleAction={handleAction}
+          handleCloseClick={handleCloseClick}
+        />
+        <CardAction
+          visible={option === "edit" || option === "read"}
           value={value}
           description={description}
-          setModal={setModal}
           setValue={setValue}
           setDescription={setDescription}
-          clearInput={clearInput}
-          createExpense={createExpense}
+          handleAction={handleAction}
+          handleCloseClick={handleCloseClick}
         />
       </Modal>
       <Toast text={toastText} setToastText={setToastText} />
       <Header />
-      <Main expenses={expenses} total={total} />
-      <Footer setModal={setModal} />
+      <ExpenseList
+        option={option}
+        setModal={setModal}
+        setOption={setOption}
+        selectExpense={selectExpense}
+        expenses={expenses}
+        total={total}
+      />
+      <Footer setModal={setModal} setOption={setOption} />
     </Container>
   );
 }

@@ -1,22 +1,17 @@
 import "./styles.css";
 
-export const Footer = ({ setModal }) => {
+export const Footer = ({ setModal, setOption }) => {
   return (
     <footer>
-      <button className="footer-button">
-        <span class="material-symbols-rounded">edit_square</span>
+      <button className="button" onClick={() => setOption("edit")}>
+        <span className="material-symbols-rounded">edit_square</span>
       </button>
-      <button
-        className="footer-button button-add"
-        onClick={() => setModal(true)}
-      >
-        <span class="material-symbols-rounded">add</span>
+      <button className="button button-add" onClick={() => setModal(true)}>
+        <span className="material-symbols-rounded">add</span>
       </button>
-      <button className="footer-button">
-        <span class="material-symbols-rounded">delete</span>
+      <button className="button" onClick={() => setOption("delete")}>
+        <span className="material-symbols-rounded">delete</span>
       </button>
     </footer>
   );
 };
-
-<span class="material-icons-outlined">delete</span>;

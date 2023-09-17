@@ -2,28 +2,23 @@ import "./styles.css";
 
 import React from "react";
 
-export const Edit = ({
+export const CardAction = ({
+  visible,
   value,
   description,
-  setModal,
   setValue,
   setDescription,
-  clearInput,
-  createExpense,
+  handleCloseClick,
+  handleAction,
 }) => {
-  const handleCloseClick = () => {
-    setModal(false);
-    clearInput();
-  };
-
-  return (
+  return visible ? (
     <form
       className="edit"
-      onSubmit={createExpense}
+      onSubmit={handleAction}
       encType="multipart/form-data"
     >
       <div className="edit-header">
-        <span class="material-symbols-rounded">edit_square</span>
+        <span className="material-symbols-rounded">edit_square</span>
         <input
           autoFocus
           name="value"
@@ -40,7 +35,7 @@ export const Edit = ({
       <div className="edit-description">
         <span>Descrição</span>
         <div className="group">
-          <span class="material-symbols-rounded">edit_note</span>
+          <span className="material-symbols-rounded">edit_note</span>
           <input
             type="text"
             name="description"
@@ -56,13 +51,13 @@ export const Edit = ({
       <hr />
 
       <div className="edit-options">
-        <button className="edit-button" onClick={() => handleCloseClick()}>
-          <span class="material-symbols-rounded">close</span>
+        <button className="button w100" onClick={() => handleCloseClick()}>
+          <span className="material-symbols-rounded">close</span>
         </button>
-        <button className="edit-button edit-button-save" type="submit">
-          <span class="material-symbols-rounded">save</span>
+        <button className="button button-save w100" type="submit">
+          <span className="material-symbols-rounded">save</span>
         </button>
       </div>
     </form>
-  );
+  ) : null;
 };
