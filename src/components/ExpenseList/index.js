@@ -1,17 +1,10 @@
-import "./styles.css";
+import './styles.css';
 
-import { Fragment } from "react";
-import { formatCurrency } from "../../utils/formatCurrency";
-import { formatDateTime } from "../../utils/formatDateTime";
+import { Fragment } from 'react';
+import { formatCurrency } from '../../utils/formatCurrency';
+import { formatDateTime } from '../../utils/formatDateTime';
 
-export const ExpenseList = ({
-  option,
-  setOption,
-  setModal,
-  selectExpense,
-  expenses,
-  total,
-}) => {
+export const ExpenseList = ({ option, setOption, setModal, selectExpense, expenses, total }) => {
   const buttonsOptionMapping = {
     edit: (
       <span className="material-symbols-rounded" onClick={() => setModal(true)}>
@@ -31,7 +24,7 @@ export const ExpenseList = ({
         <section className="expense-section-total">
           <div className="group">
             <h4 className="title">Despesa total</h4>
-            <h3 className="total">{formatCurrency(total)}</h3>
+            <h3 className="total">{formatCurrency(String(total))}</h3>
           </div>
         </section>
 
@@ -42,11 +35,8 @@ export const ExpenseList = ({
             <h4 className="title"> Lista de despesas</h4>
           </div>
 
-          {option !== "read" ? (
-            <span
-              className="material-symbols-rounded"
-              onClick={() => setOption("read")}
-            >
+          {option !== 'read' ? (
+            <span className="material-symbols-rounded" onClick={() => setOption('read')}>
               close
             </span>
           ) : null}
@@ -56,14 +46,14 @@ export const ExpenseList = ({
               const { id, description, value, date_time } = expense;
               return (
                 <Fragment key={`expense-${index}`}>
-                  <li onClick={() => selectExpense(id, description, value)}>
+                  <li onClick={() => selectExpense(id, description, formatCurrency(String(value)))}>
                     <div className="item">
                       {buttonsOptionMapping[option]}
                       <div>
                         <h5>{description}</h5>
                         <small>{formatDateTime(date_time)}</small>
                       </div>
-                      <h5 className="value">{formatCurrency(value)}</h5>
+                      <h5 className="value">{formatCurrency(String(value))}</h5>
                     </div>
                   </li>
                   <hr />

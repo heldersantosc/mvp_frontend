@@ -1,6 +1,7 @@
-import "./styles.css";
+import './styles.css';
 
-import React from "react";
+import React from 'react';
+import { formatCurrencyInput } from '../../utils/formatCurrency';
 
 export const CardAction = ({
   visible,
@@ -11,12 +12,13 @@ export const CardAction = ({
   handleCloseClick,
   handleAction,
 }) => {
+  const handleChange = (event) => {
+    const formattedValue = formatCurrencyInput(event.target.value);
+    setValue(formattedValue);
+  };
+
   return visible ? (
-    <form
-      className="edit"
-      onSubmit={handleAction}
-      encType="multipart/form-data"
-    >
+    <form className="edit" onSubmit={handleAction} encType="multipart/form-data">
       <div className="edit-header">
         <span className="material-symbols-rounded">edit_square</span>
         <input
@@ -24,11 +26,9 @@ export const CardAction = ({
           name="value"
           id="edit-input-value"
           className="edit-input-value"
-          type="number"
-          min={0.1}
-          step={0.01}
-          value={value}
-          onChange={(event) => setValue(event.target.value)}
+          type="text"
+          value={formatCurrencyInput(String(value))}
+          onChange={handleChange}
         />
       </div>
 

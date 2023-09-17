@@ -1,36 +1,37 @@
-import { useEffect, useState } from "react";
-import { CardAction } from "./components/CardAction";
-import { ConfirmAction } from "./components/ConfirmAction";
-import { Container } from "./components/Container";
-import { ExpenseList } from "./components/ExpenseList";
-import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
-import { Modal } from "./components/Modal";
-import { Toast } from "./components/Toast";
+import { useEffect, useState } from 'react';
+import { CardAction } from './components/CardAction';
+import { ConfirmAction } from './components/ConfirmAction';
+import { Container } from './components/Container';
+import { ExpenseList } from './components/ExpenseList';
+import { Footer } from './components/Footer';
+import { Header } from './components/Header';
+import { Modal } from './components/Modal';
+import { Toast } from './components/Toast';
+import { formatCurrencyToNumber } from './utils/formatCurrency';
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL;
 
 function App() {
   const [modal, setModal] = useState(false);
-  const [toastText, setToastText] = useState("");
+  const [toastText, setToastText] = useState('');
   const [expenses, setExpense] = useState([]);
   const [id, setId] = useState(0);
   const [total, setTotal] = useState(0.0);
-  const [value, setValue] = useState(0.0);
-  const [description, setDescription] = useState("");
-  const [option, setOption] = useState("read");
+  const [value, setValue] = useState('0');
+  const [description, setDescription] = useState('');
+  const [option, setOption] = useState('read');
 
   const getData = async () => {
     await getTotal();
     await getExpenses();
     clearInput();
     setModal(false);
-    setOption("read");
+    setOption('read');
   };
 
   const getTotal = async () => {
     try {
-      const response = await fetch(baseUrl + "/expense/total");
+      const response = await fetch(baseUrl + '/expense/total');
       const responseJson = await response?.json();
       if (responseJson.total) setTotal(responseJson.total);
       if (responseJson.error) throw new Error(responseJson.error);
@@ -41,7 +42,7 @@ function App() {
 
   const getExpenses = async () => {
     try {
-      const response = await fetch(baseUrl + "/expense");
+      const response = await fetch(baseUrl + '/expense');
       const responseJson = await response?.json();
       if (responseJson.data) setExpense(responseJson.data);
       if (responseJson.error) throw new Error(responseJson.error);
@@ -52,10 +53,10 @@ function App() {
 
   const handleAction = async (event) => {
     switch (option) {
-      case "edit":
+      case 'edit':
         await editExpense(event);
         break;
-      case "delete":
+      case 'delete':
         await deleteExpense(event);
         break;
       default:
@@ -68,15 +69,15 @@ function App() {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append("value", value);
-    formData.append("description", description);
-    formData.append("date_time", new Date().toISOString());
+    formData.append('value', formatCurrencyToNumber(value));
+    formData.append('description', description);
+    formData.append('date_time', new Date().toISOString());
 
     try {
-      const options = { method: "POST", body: formData };
+      const options = { method: 'POST', body: formData };
       const response = await fetch(`${baseUrl}/expense`, options);
       const responseJson = await response?.json();
-      if (responseJson.error) throw new Error(responseJson.error);
+      if (!response.ok) throw new Error(responseJson.error || responseJson[0].msg);
       await getData();
       setToastText(responseJson.message);
     } catch (error) {
@@ -89,13 +90,13 @@ function App() {
 
     try {
       const options = {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ description, value }),
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description, value: formatCurrencyToNumber(value) }),
       };
       const response = await fetch(`${baseUrl}/expense/${id}`, options);
       const responseJson = await response?.json();
-      if (responseJson.error) throw new Error(responseJson.error);
+      if (!response.ok) throw new Error(responseJson.error);
       getData();
       setToastText(responseJson.message);
     } catch (error) {
@@ -105,10 +106,10 @@ function App() {
 
   const deleteExpense = async () => {
     try {
-      const options = { method: "DELETE" };
+      const options = { method: 'DELETE' };
       const response = await fetch(`${baseUrl}/expense/${id}`, options);
       const responseJson = await response?.json();
-      if (responseJson.error) throw new Error(responseJson.error);
+      if (!response.ok) throw new Error(responseJson.error);
       getData();
       setToastText(responseJson.message);
     } catch (error) {
@@ -123,8 +124,9 @@ function App() {
   };
 
   const clearInput = () => {
-    setValue("");
-    setDescription("");
+    setId(0);
+    setValue('');
+    setDescription('');
   };
 
   const handleCloseClick = () => {
@@ -139,13 +141,9 @@ function App() {
   return (
     <Container>
       <Modal open={modal}>
-        <ConfirmAction
-          visible={option === "delete"}
-          handleAction={handleAction}
-          handleCloseClick={handleCloseClick}
-        />
+        <ConfirmAction visible={option === 'delete'} handleAction={handleAction} handleCloseClick={handleCloseClick} />
         <CardAction
-          visible={option === "edit" || option === "read"}
+          visible={option === 'edit' || option === 'read'}
           value={value}
           description={description}
           setValue={setValue}
