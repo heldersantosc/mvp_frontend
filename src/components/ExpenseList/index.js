@@ -7,12 +7,12 @@ import { formatDateTime } from '../../utils/formatDateTime';
 export const ExpenseList = ({ option, setOption, setModal, selectExpense, expenses, total }) => {
   const buttonsOptionMapping = {
     edit: (
-      <div className="edit-icon" onClick={() => setModal(true)}>
+      <div className="edit-icon">
         <span className="material-symbols-rounded">edit_square</span>
       </div>
     ),
     delete: (
-      <div className="delete-icon" onClick={() => setModal(true)}>
+      <div className="delete-icon">
         <span className="material-symbols-rounded">delete</span>
       </div>
     ),
@@ -49,7 +49,14 @@ export const ExpenseList = ({ option, setOption, setModal, selectExpense, expens
               const { id, description, value, date_time } = expense;
               return (
                 <Fragment key={`expense-${index}`}>
-                  <li onClick={() => selectExpense(id, description, formatCurrency(String(value)))}>
+                  <li
+                    onClick={() => {
+                      if (option !== 'read') {
+                        selectExpense(id, description, formatCurrency(String(value)));
+                        setModal(true);
+                      }
+                    }}
+                  >
                     <div className="item">
                       <div>
                         <h5>{description}</h5>

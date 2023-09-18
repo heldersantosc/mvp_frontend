@@ -56,12 +56,16 @@ hr {
   flex-direction: column;
   max-height: 40vh;
   overflow-y: auto;
-  gap: 1rem;
 }
 
 li {
   list-style: none;
-  padding-right: 1rem;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: #e2faff;
 }
 
 .item {
